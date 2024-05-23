@@ -1,7 +1,12 @@
 #include "PacketSequenceHandler.h"
 #include <iostream>
 #include <cstring>
-#include <arpa/inet.h> // For ntohs
+#ifdef _WIN32
+#include <Winsock2.h>              // For networking functions on Windows
+#pragma comment(lib, "Ws2_32.lib") // Link with Winsock library
+#else
+#include <arpa/inet.h> // For networking functions on Linux
+#endif
 #include <fstream>
 
 constexpr uint8_t c_headerSizeBytes = 12;

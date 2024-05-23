@@ -22,6 +22,10 @@ enable_testing()
     
 add_executable(PacketSequenceHandler ${SOURCES})
 
+if(WIN32)
+    target_link_libraries(PacketSequenceHandler ws2_32)
+endif()
+
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)

@@ -1,7 +1,12 @@
 #include "Sender.h"
 #include <iostream>
 #include <random>
-#include <arpa/inet.h> // For htons
+#ifdef _WIN32
+#include <Winsock2.h>              // For networking functions on Windows
+#pragma comment(lib, "Ws2_32.lib") // Link with Winsock library
+#else
+#include <arpa/inet.h> // For networking functions on Linux
+#endif
 #include <cstring>
 
 constexpr uint8_t c_headerSizeBytes = 12;
@@ -11,7 +16,7 @@ Sender::Sender()
     // Initialize random seed
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<uint16_t> dis(0, std::numeric_limits<uint16_t>::max());
+    std::uniform_int_distribution<uint16_t> dis(0, (std::numeric_limits<uint16_t>::max)());
     m_sequenceNumber = dis(gen);
 }
 
