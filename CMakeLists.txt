@@ -13,7 +13,9 @@ include_directories(include)
 # Define the source files
 set(SOURCES
     main.cpp
-    src/PacketSequenceHandler.cpp)
+    src/PacketSequenceHandler.cpp
+    src/Sender.cpp
+    src/PacketMixer.cpp)
 
 include(CTest)
 enable_testing()
