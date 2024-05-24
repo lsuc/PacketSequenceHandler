@@ -46,7 +46,7 @@ Packet Sender::generateNextPacket()
     std::memcpy(&packet[2], &sequenceNumberNetwork, sizeof(uint16_t)); // Copy sequence number to packet header
 
     // Generate random payload
-    std::uniform_int_distribution<unsigned char> byteDist(65, 90);
+    std::uniform_int_distribution<int> byteDist(65, 90);
     for (int i = c_headerSizeBytes; i < packetSize; ++i)
     {
         packet[i] = static_cast<char>(byteDist(gen));

@@ -17,6 +17,7 @@ int main(int, char **)
 
     PacketSequenceHandler handler("output.bin");
 
+    /*
     Sender sender;
     std::vector<Packet> packets;
     const int packetNum = 15;
@@ -33,7 +34,7 @@ int main(int, char **)
     for (int i = packetNum - 1; i >= 0; i--)
     {
         handler.write(packets[i].data.data(), packets[i].data.size());
-    }
-    // handler.write(data2, sizeof(data2));
-    // handler.write(data1, sizeof(data1));
+    }*/
+    handler.write(data2, sizeof(data2));
+    handler.write(data1, sizeof(data1));
 }
