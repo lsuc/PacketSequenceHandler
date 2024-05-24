@@ -26,15 +26,14 @@ int main(int, char **)
 
     for (int i = 0; i < packetNum; i++)
     {
-        // const auto packet = sender.generateNextPacket();
-        // packets[i] = packet;
+        const auto packet = sender.generateNextPacket();
+        packets[i] = packet;
     }
     // mixer.shufflePackets(packets);
     for (int i = packetNum - 1; i >= 0; i--)
     {
-        //  handler.write(packets[i].data, packets[i].size);
-        // TODO delete[] packets[i].data;
+        handler.write(packets[i].data.data(), packets[i].data.size());
     }
-    handler.write(data2, sizeof(data2));
-    handler.write(data1, sizeof(data1));
+    // handler.write(data2, sizeof(data2));
+    // handler.write(data1, sizeof(data1));
 }

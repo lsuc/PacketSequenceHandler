@@ -11,6 +11,7 @@
 
 constexpr uint8_t c_headerSizeBytes = 12;
 constexpr uint8_t c_sequenceStartByte = 2;
+constexpr int c_numPacketsToDetermineInitialSeq = 20;
 
 PacketSequenceHandler::PacketSequenceHandler(const std::string &filename) : m_outputFile(filename, std::ios::out | std::ios::binary)
 {
@@ -54,7 +55,7 @@ void PacketSequenceHandler::write(const char *data, int size)
     if (!m_initialSequenceSet)
     {
         m_receivedSequenceNumbers.insert(sequenceNumber);
-        if (m_receivedSequenceNumbers.size() >= NUM_PACKETS_TO_DETERMINE_INITIAL_SEQ)
+        if (m_receivedSequenceNumbers.size() >= c_numPacketsToDetermineInitialSeq)
         {
             const auto initialSequenceNumber = *m_receivedSequenceNumbers.begin();
             m_nextSequenceNumber = initialSequenceNumber;

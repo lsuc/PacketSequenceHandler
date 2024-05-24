@@ -27,7 +27,6 @@ private:
     bool m_initialSequenceSet{false};
     uint16_t m_nextSequenceNumber{0};
     std::set<uint16_t> m_receivedSequenceNumbers;
-    static constexpr int NUM_PACKETS_TO_DETERMINE_INITIAL_SEQ = 20;
 };
 
 #endif // PACKET_SEQUENCE_HANDLER_H

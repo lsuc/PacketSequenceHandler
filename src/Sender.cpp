@@ -36,31 +36,31 @@ Packet Sender::generateNextPacket()
     std::uniform_int_distribution<int> sizeDis(1, 100);
     int payloadSize = sizeDis(gen);
 
-    // Generate random payload data
-    std::vector<char> payload(payloadSize);
-    std::uniform_int_distribution<int> dataDis(0, 255);
-    for (char &byte : payload)
-    {
-        byte = static_cast<char>(dataDis(gen));
-    }
-
     // Create packet with header (header + payload)
+    const auto packetSize = c_headerSizeBytes + payloadSize;
     std::vector<char> packet(c_headerSizeBytes + payloadSize);
 
     // Set sequence number in header (in network byte order)
     uint16_t sequenceNumberNetwork = htons(m_sequenceNumber);
     std::cout << "Packet sequence number: " << m_sequenceNumber << std::endl;
     std::memcpy(&packet[2], &sequenceNumberNetwork, sizeof(uint16_t)); // Copy sequence number to packet header
-    // Copy payload data to packet
-    std::copy(payload.begin(), payload.end(), packet.begin() + c_headerSizeBytes);
+
+    // Generate random payload
+    std::uniform_int_distribution<unsigned char> byteDist(65, 90);
+    for (int i = c_headerSizeBytes; i < packetSize; ++i)
+    {
+        packet[i] = static_cast<char>(byteDist(gen));
+    }
 
     // Print payload sequence number, size and bytes before returning the packet
     std::cout << "Payload size: " << payloadSize << " bytes" << std::endl;
     std::cout << "Payload bytes: ";
-    for (const char &byte : payload)
+    for (int i = 12; i < packetSize; ++i)
     {
-        std::cout << byte << " ";
+        // std::cout << std::hex << (static_cast<int>(packet[i]) & 0xFF) << " ";
+        std::cout << packet[i] << " ";
     }
+    // std::cout << std::dec << std::endl;
     std::cout << std::endl;
 
     // Increment sequence number for next packet
@@ -68,9 +68,6 @@ Packet Sender::generateNextPacket()
 
     // Create a Packet struct and return it
     Packet packetStruct;
-    packetStruct.data = new char[packet.size()];                                      // Allocate memory for data, since it has variable size
-    std::memcpy(const_cast<char *>(packetStruct.data), packet.data(), packet.size()); // Copy packet data
-    packetStruct.size = packet.size();
-
+    packetStruct.data = std::move(packet); // Move packet into Packet struct
     return packetStruct;
 }

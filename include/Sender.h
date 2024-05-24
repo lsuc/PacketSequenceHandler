@@ -6,8 +6,7 @@
 
 struct Packet
 {
-    const char *data;
-    int size;
+    std::vector<char> data;
 };
 
 class Sender
